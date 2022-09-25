@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<head>
+    <style>
+        #image_preview{
+            border: 1px solid;
+            height: 300px;
+            width: 300px;
+            background-position: center;
+            background-size: cover;
+        }
+    </style>
+</head>
+<body>
+    <h1>Profile details</h1>
+    <p>Username = <%= user.displayName %></p>
+    <button type="submit" onclick="location.href='/logout'">Log out</button>
+
+    <input type="file" accept="image/png, image/jpg" id="image_file_path">
+    <input type="url" name="image_url" id="image_url">
+    <input type="button" value="Upload image" id="upload">
+    <div id="image_preview">
+    </div>
+    <script>
+        const img_path = document.querySelector("#image_file_path");
+        const img_submit = document.querySelector("#upload");
+        const img_url = document.querySelector("#image_url");
+        var image = "";
+
+
+        img_path.addEventListener("change", function() {
+            const reader = new FileReader();
+            reader.addEventListener("load", () => {
+                image = reader.result;
+                img_submit.addEventListener("click", () => {
+                    document.querySelector("#image_preview").style.backgroundImage = `url(${image})`;
+                });
+                
+            })
+            reader.readAsDataURL(this.files[0]);
+        })
+        img_url.addEventListener("input",function(){
+            img_submit.addEventListener("click", () => {
+                document.querySelector("#image_preview").style.backgroundImage = `url(${img_url.value})`;
+            });
+        })
+    </script>
+</body>
